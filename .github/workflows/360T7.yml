@@ -122,11 +122,11 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 整理文件
+    - name: 整理固件
       id: organize
       if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-              # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间
+        # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间
         cd openwrt/bin/targets/*/*
         rm -rf version.buildinfo
         rm -rf profiles.json
@@ -140,25 +140,6 @@ jobs:
         echo -e "$(sha256sum *)\n" > sha256sums
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
-        
-        # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间
-        # cd $openwrt_root/bin/targets/*/*
-        # mkdir -p package
-        # mv packages package/core
-        # mv package packages
-        # mv $openwrt_root/bin/packages/*/* packages
-        # tar -czf packages.tar.gz packages
-        # rm -rf packages
-        # mv *sysupgrade.itb ${{ github.workflow }}-$FIRMWARE_VERSION-squashfs-sysupgrade.itb
-        # rm -rf version.buildinfo
-        # rm -rf profiles.json
-        # rm -rf feeds.buildinfo
-        # rm -rf sha256sums
-        # rm -rf *bl2.bin
-        # rm -rf immortalwrt*
-        # echo -e "$(sha256sum *)\n" > sha256sums
-        # echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        # echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到Github Actions空间
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
