@@ -23,7 +23,7 @@ on:
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
   REPO_BRANCH: openwrt-24.10
-  CACHE_REPO: QiYueYiya/openwrt-packages
+  CACHE_REPO: shine85/openwrt-packages
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
